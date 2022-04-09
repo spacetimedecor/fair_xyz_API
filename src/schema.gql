@@ -27,9 +27,16 @@ type Query {
 }
 
 type Mutation {
-  createUser(userData: UserInput!): UserType!
+  createUser(userData: CreateUser!): UserType!
+  updateCollection(collectionData: UpdateCollection!): CollectionType!
 }
 
-input UserInput {
+input CreateUser {
   email: String!
+}
+
+input UpdateCollection {
+  name: String
+  launchDate: DateTime
+  id: Float!
 }
