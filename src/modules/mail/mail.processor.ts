@@ -45,22 +45,27 @@ export class MailProcessor {
     );
   }
 
-  @Process('test')
-  async sendWelcomeEmail(job: Job<{ userId: string }>): Promise<any> {
-    this.logger.log(`Sending test email to '${job.data.userId}'`);
+  @Process()
+  async sendLaunchNotificationEmail(
+    job: Job<{
+      userEmail: string;
+      timeUntilLaunch: string;
+      collectionName: string;
+    }>,
+  ): Promise<any> {
+    const { userEmail, timeUntilLaunch, collectionName } = job.data;
+    this.logger.log(`Sending test email to '${userEmail}'`);
 
     try {
       return await this.mailerService.sendMail({
-        template: 'test',
-        context: {
-          userId: job.data.userId,
-        },
-        subject: 'test',
-        to: 'test@test.com',
+        template: 'LaunchNotification',
+        context: job.data,
+        subject: `REMINDER - THE COLLECTION ${collectionName} LAUNCHES IN ${timeUntilLaunch}`,
+        to: userEmail,
       });
     } catch (error) {
       this.logger.error(
-        `Failed to send confirmation email to '${job.data.userId}'`,
+        `Failed to send confirmation email to '${collectionName}'`,
         error.stack,
       );
       throw error;

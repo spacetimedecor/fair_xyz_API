@@ -9,15 +9,15 @@ export class MailService {
     private mailQueue: Queue,
   ) {}
 
-  /** Send email confirmation link to new user account. */
-  async sendTestEmail(userId: string): Promise<boolean> {
+  async sendLaunchNotificationEmail(launchNotificationEmailData: {
+    userEmail: string;
+    timeUntilLaunch: string;
+    collectionName: string;
+  }): Promise<boolean> {
     try {
-      await this.mailQueue.add('test', {
-        userId,
-      });
+      await this.mailQueue.add(launchNotificationEmailData);
       return true;
     } catch (error) {
-      // this.logger.error(`Error queueing confirmation email to user ${user.email}`)
       return false;
     }
   }

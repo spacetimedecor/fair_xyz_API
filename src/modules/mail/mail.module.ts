@@ -39,8 +39,8 @@ import { ConfigService } from '@nestjs/config';
         redis: {
           host: configService.get('redis.host'),
           port: configService.get('redis.port'),
-          db: 0,
-          password: configService.get('redis.password'),
+          // db: 0,
+          // password: configService.get('redis.password'),
         },
         defaultJobOptions: {
           attempts: 5,

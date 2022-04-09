@@ -26,12 +26,15 @@ export class NotificationsService {
     });
   }
 
-  @Cron(CronExpression.EVERY_30_MINUTES, {
+  @Cron(CronExpression.EVERY_30_SECONDS, {
     timeZone: 'Europe/Paris',
   })
-  async checkHalfHourly() {
-    const sent: boolean = await this.mailService.sendTestEmail('OIT');
-    const test = 1;
+  checkHalfHourly() {
+    this.mailService.sendLaunchNotificationEmail({
+      userEmail: 'spacetimedecor@gmail.com',
+      timeUntilLaunch: '1day',
+      collectionName: 'OIT',
+    });
   }
 
   // @Cron(CronExpression.EVERY_HOUR, {
