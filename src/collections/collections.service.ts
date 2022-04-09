@@ -10,21 +10,8 @@ export class CollectionsService {
     return await this.prisma.collection.create({ data });
   }
 
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.CollectionWhereUniqueInput;
-    where?: Prisma.CollectionWhereInput;
-    orderBy?: Prisma.CollectionOrderByWithRelationInput;
-  }): Promise<CollectionModel[]> {
-    const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.collection.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-    });
+  async findAll(): Promise<CollectionModel[]> {
+    return this.prisma.collection.findMany();
   }
 
   async update(params: {

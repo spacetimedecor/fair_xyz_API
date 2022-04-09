@@ -7,4 +7,7 @@ export class CollectionType {
 
   @Field({ description: 'Collection Name' })
   name: string;
+
+  @Field({ description: 'Collection Launch Date' })
+  launch_date: Date;
 }

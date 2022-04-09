@@ -22,6 +22,10 @@ export class UsersService {
     return this.prisma.user.create({ data });
   }
 
+  async findAll(): Promise<UserModel[]> {
+    return this.prisma.user.findMany();
+  }
+
   findOne(data: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findUnique({ where: data });
   }

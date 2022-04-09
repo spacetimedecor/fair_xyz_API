@@ -6,10 +6,11 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "prettify": "prettier --write \"**/*.ts\"",
     "db:console": "heroku pg:psql postgresql-asymmetrical-11586 --app dash-db",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:push": "npx prisma db push",
+    "prisma:seed": "npx prisma db seed",
+    "prisma:reset": "npx prisma migrate reset",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -64,6 +65,9 @@
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
     "typescript": "^4.3.5"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "jest": {
     "moduleFileExtensions": [
