@@ -18,7 +18,7 @@ export class UserCollectionNotificationsResolver {
   ) {
     const { userEmail, collectionId } = createUserCollectionNotification;
 
-    return await this.notificationsService.createUserCollectionNotify({
+    return await this.notificationsService.createUserCollectionNotification({
       user: {
         connectOrCreate: {
           where: { email: userEmail },
