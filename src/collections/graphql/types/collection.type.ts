@@ -1,13 +1,13 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class CollectionType {
-  @Field(() => ID, { description: 'Collection ID' })
+  @Field(() => Int, { description: 'Collection ID' })
   id: number;
 
   @Field({ description: 'Collection Name' })
   name: string;
 
-  @Field({ description: 'Collection Launch Date' })
-  launch_date: Date;
+  @Field({ description: 'Collection Launch Date', nullable: true })
+  launch_date?: Date;
 }

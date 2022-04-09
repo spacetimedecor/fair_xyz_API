@@ -3,18 +3,22 @@
 # ------------------------------------------------------
 
 type UserType {
+  """User ID"""
+  id: Int!
+
+  """User Email"""
   email: String!
 }
 
 type CollectionType {
   """Collection ID"""
-  id: ID!
+  id: Int!
 
   """Collection Name"""
   name: String!
 
   """Collection Launch Date"""
-  launch_date: DateTime!
+  launch_date: DateTime
 }
 
 """
@@ -22,13 +26,36 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type UserCollectionNotificationType {
+  """User Collection Notification ID"""
+  id: Int!
+
+  """User ID"""
+  userId: Float!
+
+  """Collection ID"""
+  collectionId: Float!
+
+  """User"""
+  user: UserType!
+
+  """Collection"""
+  collection: CollectionType!
+}
+
 type Query {
   collections: [CollectionType!]!
 }
 
 type Mutation {
+  createNotification(userCollectionNotificationData: CreateUserCollectionNotification!): UserCollectionNotificationType!
   createUser(userData: CreateUser!): UserType!
   updateCollection(collectionData: UpdateCollection!): CollectionType!
+}
+
+input CreateUserCollectionNotification {
+  userEmail: String!
+  collectionId: Float!
 }
 
 input CreateUser {

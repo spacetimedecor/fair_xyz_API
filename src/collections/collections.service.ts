@@ -6,15 +6,11 @@ import { Collection as CollectionModel, Prisma } from '@prisma/client';
 export class CollectionsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: Prisma.CollectionCreateInput): Promise<CollectionModel> {
-    return await this.prisma.collection.create({ data });
+  create(data: Prisma.CollectionCreateInput): Promise<CollectionModel> {
+    return this.prisma.collection.create({ data });
   }
 
-  async findAll(): Promise<CollectionModel[]> {
-    return this.prisma.collection.findMany();
-  }
-
-  async update(params: {
+  update(params: {
     where: Prisma.CollectionWhereUniqueInput;
     data: Prisma.CollectionUpdateInput;
   }): Promise<CollectionModel> {
@@ -23,5 +19,13 @@ export class CollectionsService {
       data,
       where,
     });
+  }
+
+  findAll(): Promise<CollectionModel[]> {
+    return this.prisma.collection.findMany();
+  }
+
+  findOne(data: Prisma.CollectionWhereUniqueInput): Promise<CollectionModel> {
+    return this.prisma.collection.findUnique({ where: data });
   }
 }

@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CollectionsService } from '../../collections.service';
 import { CollectionType } from '../types/collection.type';
 import { Injectable } from '@nestjs/common';
 import { UpdateCollection } from '../types/update-collection.type';
+import { CollectionsService } from '../../collections.service';
 
 @Resolver((of) => CollectionType)
 @Injectable()
