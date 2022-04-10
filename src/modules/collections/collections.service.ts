@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Collection as CollectionModel, Prisma } from '@prisma/client';
 import * as moment from 'moment';
-import { unitOfTime } from 'moment';
-import { notificationSentFlags } from '../notifications/notifications.service';
 
 @Injectable()
 export class CollectionsService {
