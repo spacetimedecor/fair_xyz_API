@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Collection as CollectionModel, Prisma } from '@prisma/client';
 import * as moment from 'moment';
+import { unitOfTime } from 'moment';
+import { notificationSentFlags } from '../notifications/notifications.service';
 
 @Injectable()
 export class CollectionsService {
@@ -26,7 +28,7 @@ export class CollectionsService {
     return this.prisma.collection.findMany(args);
   }
 
-  async findAllInTimeRange({ amount, unit, notificationFlag }) {
+  async findAllInTimeRange({ in: { amount, unit }, notificationSentFlag }) {
     const now = moment();
     let fromNow = moment().add(amount, unit);
 
@@ -36,11 +38,16 @@ export class CollectionsService {
     return await this.findAll({
       where: {
         AND: [
-          {
-            [notificationFlag]: {
-              equals: false,
-            },
-          },
+          // If we're only sending once, check for sent flag:
+          ...(notificationSentFlag
+            ? [
+                {
+                  [notificationSentFlag]: {
+                    equals: false,
+                  },
+                },
+              ]
+            : []),
           {
             launch_date: {
               gte: now.toDate(),
