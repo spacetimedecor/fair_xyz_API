@@ -77,7 +77,9 @@ export class NotificationsService {
     return collectionsLaunchingInTimeRange;
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_10_SECONDS, {
+    timeZone: 'GMT',
+  })
   minutely() {
     this.notifyAboutCollectionsLaunching({
       in: { amount: 1, unit: 'minute' },
@@ -90,7 +92,9 @@ export class NotificationsService {
     });
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_4AM)
+  @Cron(CronExpression.EVERY_DAY_AT_4AM, {
+    timeZone: 'GMT',
+  })
   daily() {
     this.notifyAboutCollectionsLaunching({
       in: { amount: 1, unit: 'day' },

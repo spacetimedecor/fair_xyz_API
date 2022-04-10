@@ -44,8 +44,6 @@ import { ConfigService } from '@nestjs/config';
         },
         defaultJobOptions: {
           attempts: 5,
-          removeOnComplete: true,
-          removeOnFail: false,
         },
       }),
       inject: [ConfigService],
