@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Collection as CollectionModel, Prisma } from '@prisma/client';
+import * as moment from 'moment';
 
 @Injectable()
 export class CollectionsService {
@@ -21,8 +22,33 @@ export class CollectionsService {
     });
   }
 
-  findAll(): Promise<CollectionModel[]> {
-    return this.prisma.collection.findMany();
+  findAll(args?: Prisma.CollectionFindManyArgs): Promise<CollectionModel[]> {
+    return this.prisma.collection.findMany(args);
+  }
+
+  async findAllInTimeRange({ amount, unit }) {
+    const now = moment();
+    let fromNow = moment().add(amount, unit);
+
+    // Account for daylight savings
+    if (now.isDST()) fromNow = fromNow.add(1, 'hour');
+
+    return await this.findAll({
+      where: {
+        AND: [
+          {
+            launch_date: {
+              gte: now.toDate(),
+            },
+          },
+          {
+            launch_date: {
+              lte: fromNow.toDate(),
+            },
+          },
+        ],
+      },
+    });
   }
 
   findOne(data: Prisma.CollectionWhereUniqueInput): Promise<CollectionModel> {

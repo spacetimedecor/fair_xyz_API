@@ -49,8 +49,8 @@ type Query {
 
 type Mutation {
   createNotification(userCollectionNotificationData: CreateUserCollectionNotification!): UserCollectionNotificationType!
-  createUser(userData: CreateUser!): UserType!
   updateCollection(collectionData: UpdateCollection!): CollectionType!
+  createUser(userData: CreateUser!): UserType!
 }
 
 input CreateUserCollectionNotification {
@@ -58,12 +58,12 @@ input CreateUserCollectionNotification {
   collectionId: Float!
 }
 
-input CreateUser {
-  email: String!
-}
-
 input UpdateCollection {
   name: String
   launchDate: DateTime
   id: Float!
+}
+
+input CreateUser {
+  email: String!
 }
