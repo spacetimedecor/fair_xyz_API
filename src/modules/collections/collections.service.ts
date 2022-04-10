@@ -26,7 +26,7 @@ export class CollectionsService {
     return this.prisma.collection.findMany(args);
   }
 
-  async findAllInTimeRange({ amount, unit }) {
+  async findAllInTimeRange({ amount, unit, notificationFlag }) {
     const now = moment();
     let fromNow = moment().add(amount, unit);
 
@@ -36,6 +36,11 @@ export class CollectionsService {
     return await this.findAll({
       where: {
         AND: [
+          {
+            [notificationFlag]: {
+              equals: false,
+            },
+          },
           {
             launch_date: {
               gte: now.toDate(),

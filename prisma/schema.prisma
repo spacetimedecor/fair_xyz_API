@@ -17,10 +17,13 @@ model User {
 }
 
 model Collection {
-  id                       Int         @default(autoincrement()) @id
-  name                     String      @unique
-  launch_date              DateTime?
-  users_to_notify          UserCollectionNotification[]
+  id                             Int         @default(autoincrement()) @id
+  name                           String      @unique
+  launch_date                    DateTime?
+  users_to_notify                UserCollectionNotification[]
+  launch_notification_daily_sent  Boolean     @default(false)
+  launch_notification_hourly_sent Boolean     @default(false)
+  launch_notification_final_sent   Boolean     @default(false)
 }
 
 model UserCollectionNotification {

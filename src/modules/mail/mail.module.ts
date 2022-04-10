@@ -40,7 +40,7 @@ import { ConfigService } from '@nestjs/config';
           host: configService.get('redis.host'),
           port: configService.get('redis.port'),
           // db: 0,
-          // password: configService.get('redis.password'),
+          password: configService.get('redis.password'),
         },
         defaultJobOptions: {
           attempts: 5,

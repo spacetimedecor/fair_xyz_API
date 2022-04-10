@@ -28,12 +28,16 @@ export class NotificationsService {
     });
   }
 
-  async checkForCollectionsLaunching({ in: { amount, unit } }) {
-    // Find all collections launching in 30 minutes:
+  async notifyAboutCollectionsLaunching({
+    in: { amount, unit },
+    notificationFlag,
+  }) {
+    // Find all collections launching in range:
     const collectionsLaunchingInTimeRange =
       await this.collectionsService.findAllInTimeRange({
         amount,
         unit,
+        notificationFlag,
       });
 
     // Find all users subscribed to these collections
@@ -48,35 +52,49 @@ export class NotificationsService {
           },
         });
 
-      // Notify each user
+      // and notify each user
       for (const { user } of usersSubscribedToCollection) {
-        this.mailService.sendLaunchNotificationEmail({
+        await this.mailService.sendLaunchNotificationEmail({
           userEmail: user.email,
           timeUntilLaunch: `${amount} ${unit}`,
           collectionName: collection.name,
         });
       }
     }
+
+    // Then set respective collection notification flags
+    for (const collection of collectionsLaunchingInTimeRange) {
+      await this.collectionsService.update({
+        where: {
+          id: collection.id,
+        },
+        data: {
+          [notificationFlag]: true,
+        },
+      });
+    }
+
+    return collectionsLaunchingInTimeRange;
   }
 
-  // @Cron(CronExpression.EVERY_30_MINUTES, {
-  //   timeZone: 'Europe/Paris',
-  // })
-  // halfHourly() {
-  //   this.checkForCollectionsLaunching({ in: { amount: 30, unit: 'minutes' } });
-  // }
+  @Cron(CronExpression.EVERY_MINUTE)
+  minutely() {
+    this.notifyAboutCollectionsLaunching({
+      in: { amount: 1, unit: 'minute' },
+      notificationFlag: 'launch_notification_final_sent',
+    });
 
-  @Cron(CronExpression.EVERY_SECOND, {
-    timeZone: 'Europe/Paris',
-  })
-  hourly() {
-    this.checkForCollectionsLaunching({ in: { amount: 1, unit: 'hour' } });
+    this.notifyAboutCollectionsLaunching({
+      in: { amount: 1, unit: 'hour' },
+      notificationFlag: 'launch_notification_hourly_sent',
+    });
   }
 
-  // @Cron(CronExpression.EVERY_DAY_AT_4AM, {
-  //   timeZone: 'Europe/Paris',
-  // })
-  // daily() {
-  //   this.checkForCollectionsLaunching({ in: { amount: 1, unit: 'day' } });
-  // }
+  @Cron(CronExpression.EVERY_DAY_AT_4AM)
+  daily() {
+    this.notifyAboutCollectionsLaunching({
+      in: { amount: 1, unit: 'day' },
+      notificationFlag: 'launch_notification_daily_sent',
+    });
+  }
 }
