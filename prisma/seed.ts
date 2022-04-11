@@ -4,11 +4,27 @@ const prisma = new PrismaClient();
 
 const collectionsData: Prisma.CollectionCreateInput[] = [
   {
-    name: 'test2',
+    name: 'Collection 1',
     launch_date: new Date('2020-12-23T12:45:00.000Z').toISOString(),
   },
   {
-    name: 'test3',
+    name: 'Collection 2',
+    launch_date: new Date('2020-12-23T12:45:00.000Z').toISOString(),
+  },
+  {
+    name: 'Collection 3',
+    launch_date: new Date('2020-12-23T12:45:00.000Z').toISOString(),
+  },
+  {
+    name: 'Collection 4',
+    launch_date: null,
+  },
+  {
+    name: 'Collection 5',
+    launch_date: new Date('2020-12-23T12:45:00.000Z').toISOString(),
+  },
+  {
+    name: 'Collection 6',
     launch_date: new Date('2020-12-23T12:45:00.000Z').toISOString(),
   },
 ];
